@@ -17,6 +17,8 @@
     --text-color: #232020;
     --box-shadow-color: #0000001a;
     --error-color: #ff0000;
+    --success-color: #4BB543;
+    --success-bg-color: #0080001a;
     --border-color: #dddddd;
     --btn-disabled-color: #f8a268;
     --btn-hover-color: #b65413;
@@ -30,6 +32,35 @@ body {
     font-family: 'Rubik', sans-serif;
     overflow: hidden;
 }
+
+h2 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    color: var(--text-color);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 0.5rem;
+    text-align: left;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
 
 .auth-container {
     display: flex;
@@ -60,33 +91,31 @@ body {
     text-align: left;
 }
 
-h2 {
-    margin-bottom: 1rem;
-    font-size: 1.5rem;
-    color: var(--text-color);
-}
-
-form {
+.success-container{
+    position: relative;
+    margin: 1rem;
+    background-color: var(--success-bg-color);
+    padding: 0.8rem;
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.2rem;
 }
 
-label {
-    margin-bottom: 0.5rem;
-    text-align: left;
-    font-weight: bold;
-    color: var(--text-color);
+.success{
+    color: var(--success-color);
+    font-size: 1.2rem;
 }
 
-input[type="text"],
-input[type="email"],
-input[type="password"] {
-    padding: 0.75rem;
-    margin-bottom: 0.5rem;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    font-size: 1rem;
+.success-close{
+    background: none;
+    border: none;
+    color: var(--success-color);
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1.2rem;
 }
+
 
 .form-button {
     padding: 0.75rem;
@@ -144,6 +173,14 @@ input[type="password"] {
         padding: 0.65rem;
         font-size: 0.95rem;
     }
+
+    .success {
+        font-size: 1.1rem;
+    }
+
+    .success-close{
+        font-size: 1.1rem;
+    }
 }
 
 /* For smaller tablets and large phones */
@@ -169,6 +206,14 @@ input[type="password"] {
         padding: 0.6rem;
         font-size: 0.9rem;
     }
+
+    .success{
+        font-size: 1rem;
+    }
+
+    .success-close{
+        font-size: 1rem;
+    }
 }
 
 /* For mobile phones */
@@ -193,5 +238,13 @@ input[type="password"] {
     input[type="password"] {
         padding: 0.5rem;
         font-size: 0.85rem;
+    }
+
+    .success{
+        font-size: 0.9rem;
+    }
+
+    .success-close{
+        font-size: 0.9rem;
     }
 }

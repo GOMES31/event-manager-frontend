@@ -1,20 +1,22 @@
 import { FormGroup } from '@angular/forms';
 
 export class CustomValidators {
-  static doPasswordsMatch(password: string, confirmPassword: string) {
-    return (formGroup: FormGroup) => {
-      const control = formGroup.controls[password];
-      const matchingControl = formGroup.controls[confirmPassword];
+    static doPasswordsMatch(password: string, confirmPassword: string) {
+        return (formGroup: FormGroup) => {
+            const passwordControl = formGroup.controls[password];
+            const confirmPasswordControl = formGroup.controls[confirmPassword];
 
-      if (matchingControl.errors && !matchingControl.errors['doPasswordsMatch']) {
-        return;
-      }
+            if (confirmPasswordControl.errors && !confirmPasswordControl.errors['mustMatch']) {
+                // return if another validator has already found an error
+                return;
+            }
 
-      if (control.value !== matchingControl.value) {
-        matchingControl.setErrors({ doPasswordsMatch: true });
-      } else {
-        matchingControl.setErrors(null);
-      }
-    };
-  }
+            // set error on confirmPasswordControl if validation fails
+            if (passwordControl.value !== confirmPasswordControl.value) {
+                confirmPasswordControl.setErrors({ mustMatch: true });
+            } else {
+                confirmPasswordControl.setErrors(null);
+            }
+        };
+    }
 }

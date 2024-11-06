@@ -1,5 +1,8 @@
 <div class="auth-container">
     <div class="form-container">
+        <div *ngIf="errorMessage" class="error">
+            {{ errorMessage }}
+        </div>
         <h2>Sign In</h2>
         <form [formGroup]="signInForm" (ngSubmit)="onSubmit()">
             <label for="email">Email</label>
@@ -7,13 +10,13 @@
             <div *ngIf="email?.invalid && email?.touched" class="error">
                 <small *ngIf="email?.errors?.['required']">Email is required.</small>
                 <small *ngIf="email?.errors?.['email']">Invalid email format.</small>
+                <small *ngIf="email?.errors?.['emailInUse']">This email is not registered!</small>   
             </div>
 
             <label for="password">Password</label>
             <input type="password" id="password" formControlName="password" placeholder="Enter your password">
             <div *ngIf="password?.invalid && password?.touched" class="error">
                 <small *ngIf="password?.errors?.['required']">Password is required.</small>
-                <small *ngIf="password?.errors?.['minlength']">Password must be at least 6 characters long.</small>
             </div>
 
             <button type="submit" class="form-button" [disabled]="signInForm.invalid">Sign In</button>

@@ -1,12 +1,17 @@
 <div class="auth-container">
     <div class="form-container">
+            <div *ngIf="errorMessage" class="error">
+                {{ errorMessage }}
+            </div>
         <h2>Sign Up</h2>
         <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
+            
             <label for="name">Name</label>
             <input type="text" id="name" formControlName="name" placeholder="Enter your name">
             <div *ngIf="name?.invalid && name?.touched" class="error">
                 <small *ngIf="name?.errors?.['required']">Name is required.</small>
                 <small *ngIf="name?.errors?.['minlength']">Name must be at least 3 characters long.</small>
+                <small *ngIf="name?.errors?.['pattern']">Name must contain only letters.</small>
             </div>
 
             <label for="email">Email</label>
@@ -14,6 +19,7 @@
             <div *ngIf="email?.invalid && email?.touched" class="error">
                 <small *ngIf="email?.errors?.['required']">Email is required.</small>
                 <small *ngIf="email?.errors?.['email']">Invalid email format.</small>
+                <small *ngIf="email?.errors?.['emailInUse']">This email is already in use!</small>
             </div>
 
             <label for="password">Password</label>
