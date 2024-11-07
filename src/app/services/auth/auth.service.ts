@@ -1,8 +1,9 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, tap, throwError } from 'rxjs';
-import { SignupDTO } from 'src/app/common/dtos/auth/signupDTO';
-import { SigninDTO } from 'src/app/common/dtos/auth/signinDTO';
+import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
+import { SignupDTO } from 'src/app/common/dtos/signupDTO';
+import { SigninDTO } from 'src/app/common/dtos/signinDTO';
+import { ApiResponse } from 'src/app/common/interfaces/api-response';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,10 @@ export class AuthService {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     return this.httpClient.post<ApiResponse>(signUpUrl, newUser, { headers }).pipe(
-      catchError((error: HttpErrorResponse) => throwError(() => error))
+      catchError((error) => {
+            // Return an error if it catches any
+            return throwError(() => error); 
+      })
     );
   }
 
@@ -34,13 +38,14 @@ export class AuthService {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     
     return this.httpClient.post<ApiResponse>(signInUrl, user, { headers }).pipe(
-      catchError((error: HttpErrorResponse) => throwError(() => error))
+      catchError((error) => {
+            // Return an error if it catches any
+            return throwError(() => error); 
+      })
     );
   }
+
+
+
   
 }
-
-interface ApiResponse{
-  message: string; // Message returned by the backend
-}
-

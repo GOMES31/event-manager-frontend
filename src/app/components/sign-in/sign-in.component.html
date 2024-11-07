@@ -1,3 +1,7 @@
+<div *ngIf="successAlertMessage" class="success-container">
+    <span class="success">{{ successAlertMessage }}</span>
+    <button class="success-close" (click)="closeMessage()">✕</button>
+</div>
 <div class="auth-container">
     <div class="form-container">
         <div *ngIf="errorMessage" class="error">
@@ -10,13 +14,14 @@
             <div *ngIf="email?.invalid && email?.touched" class="error">
                 <small *ngIf="email?.errors?.['required']">Email is required.</small>
                 <small *ngIf="email?.errors?.['email']">Invalid email format.</small>
-                <small *ngIf="email?.errors?.['emailInUse']">This email is not registered!</small>   
+                <small *ngIf="email?.errors?.['emailNotRegistered']">This email is not registered!</small>   
             </div>
 
             <label for="password">Password</label>
             <input type="password" id="password" formControlName="password" placeholder="Enter your password">
             <div *ngIf="password?.invalid && password?.touched" class="error">
                 <small *ngIf="password?.errors?.['required']">Password is required.</small>
+                <small *ngIf="password?.errors?.['incorrectPassword']">Incorrect Password.</small>
             </div>
 
             <button type="submit" class="form-button" [disabled]="signInForm.invalid">Sign In</button>

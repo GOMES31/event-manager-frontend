@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { SignupDTO} from 'src/app/common/dtos/auth/signupDTO';
+import { SignupDTO} from 'src/app/common/dtos/signupDTO';
 import { CustomValidators } from 'src/app/validators/custom-validators';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { AlertService } from 'src/app/services/alert/alert.service';
+import { ApiResponse } from 'src/app/common/interfaces/api-response';
 
 @Component({
   selector: 'evently-sign-up',
@@ -16,7 +18,10 @@ export class SignUpComponent implements OnInit {
   errorMessage: string = ''; // Error message for email already in use
   successMessage: string = ''; // Success message on successful registration
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router) {}
+  constructor(private formBuilder: FormBuilder, 
+              private authService: AuthService,
+              private alertService: AlertService,
+              private router: Router) {}
 
   ngOnInit(): void {
     this.signUpForm = this.formBuilder.group({
@@ -40,27 +45,34 @@ export class SignUpComponent implements OnInit {
 
       // Call AuthService to register the new user and handle possible errors
       this.authService.signUp(signupDTO).subscribe({
-        next:(response) => {
+        next:(response: ApiResponse) => {
           // Set success message
           this.successMessage = response.message || 'User registered successfully!';
 
           // Clear previous error messages
           this.errorMessage = '';
 
-          // Clear email form errors
-          this.signUpForm.controls['email'].setErrors(null);
+          // Reset sign-up form
+          this.signUpForm.reset();
 
-          // Redirect to home page on successful registration
-          console.log(this.successMessage);
+          // Set the message in the alert service to display it in sign-in page
+          this.alertService.setAlertMessage(this.successMessage);
+
+          // Redirect to sign-in page on successful registration
+          this.router.navigate(['/sign-in']);
+
         },
         error: (error: HttpErrorResponse) => {
-          // Check error status and display error message
-          if(error.status === 409){
-            // Set the error message for the email control
+          // Error 409 - Displays "This email is already in use!" if email is already registered
+          if(error.status === 409){ 
+
+            // Display the error message on the form
             this.signUpForm.controls['email'].setErrors({ emailInUse: true});
+
           }
-          else if(error.status >= 400 && error.status < 600){
-            this.errorMessage = 'An expected error occurred.';
+          // If any other error occurs, display 'An unexpected error occurred'
+          else{
+            this.errorMessage = 'An unexpected error occurred.';
           }
         }
       });

@@ -1,18 +1,47 @@
 <header class="header">
   <nav class="navbar">
-  <a [routerLink]="['/']" class="logo">
-    <img src="assets/logo.png" class="logo-image">
-  </a>
-  <div class="search-container">
-    <div class="search-bar-container">
-    <input type="text" class="search-bar" placeholder="Search events...">
-    <button class="search-button" type="button">
-      <i class="fas fa-search"></i>
-    </button>
+    <!-- Logo -->
+    <a [routerLink]="['/']" class="logo">
+      <img src="assets/logo.png" class="logo-image">
+    </a>
+
+    <!-- Search Bar -->
+      <div class="search-bar-container">
+        <input type="text" class="search-bar" placeholder="Search events...">
+        <button class="search-button" type="button">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+
+    <!-- Authentication and Hamburger Menu Icons -->
+    <div *ngIf="isAuthenticated; else signInTemplate" class="auth-icons">
+      <i class="fas fa-bars auth-icon" (click)="toggleMenu()"></i>
+    
+      <!-- Hamburger Menu -->
+      <div *ngIf="isMenuOpen" class="dropdown-menu">
+        <i class="fas fa-times close-icon" (click)="closeMenu()"></i>
+        <a *ngIf="getUserRole() === 'USER'" class="dropdown-option">My Profile</a>
+        <a *ngIf="getUserRole() === 'USER'" class="dropdown-option">My Tickets</a>
+        <a *ngIf="getUserRole() === 'ORGANIZER'" class="dropdown-option">My Events</a>
+        <a *ngIf="getUserRole() === 'ADMIN'" class="dropdown-option">Users</a>
+        <a *ngIf="getUserRole() === 'ADMIN'" class="dropdown-option">Organizers</a>
+        <a *ngIf="getUserRole() === 'ADMIN'" class="dropdown-option">Approve Requests</a>
+        <a *ngIf="getUserRole() === 'ADMIN'" class="dropdown-option">Events</a>
+        <a (click)="signOut()" class="dropdown-option">Sign Out</a>
+      </div>
     </div>
-  </div>
-  <a [routerLink]="['/sign-in']" class="sign-in">
-    <i class="fas fa-user sign-in-icon"></i>
-  </a>
+    
+    <ng-template #signInTemplate>
+      <a [routerLink]="['/sign-in']" class="auth-link">
+        <i class="fas fa-arrow-right-to-bracket auth-icon"></i>
+      </a>
+    </ng-template>
+
+    <!-- Sign-In Icon (shown when user is not logged in) -->
+    <ng-template #signInTemplate>
+      <a [routerLink]="['/sign-in']" class="auth-link">
+        <i class="fas fa-arrow-right-to-bracket auth-icon"></i>
+      </a>
+    </ng-template>
   </nav>
 </header>
