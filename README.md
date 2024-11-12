@@ -3,9 +3,7 @@
 ## Description
 This is the frontend application for **Evently**, an event management and ticketing website with Stripe payment integration. The frontend is currently under development and will communicate with the Spring Boot backend.
 
-## Angular Dependencies
-- **Angular Router**: For navigation.
-- **Reactive Forms**: For form handling.
+## Other tools used
 - **Font Awesome**: For icons.
 - **Stripe**: For secure payment processing.
 
